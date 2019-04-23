@@ -34,7 +34,7 @@ import com.karumi.dexter.listener.PermissionRequestErrorListener;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 
 import java.util.List;
-
+//
 public class SplashActivity extends AppCompatActivity {
     private Handler handler;
     private FirebaseAuth mAuth;
