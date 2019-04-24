@@ -1,5 +1,6 @@
 package com.kfstudio.www.oym;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
@@ -10,13 +11,17 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -24,6 +29,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
@@ -39,6 +46,7 @@ public class SplashActivity extends AppCompatActivity {
     private Handler handler;
     private FirebaseAuth mAuth;
     private FirebaseFirestore demoRef;
+    private String TAG = "log";
     @Override
     protected void onStart() {
         super.onStart();
@@ -121,59 +129,28 @@ public class SplashActivity extends AppCompatActivity {
     }
     private void checkdata(final String phoneNumber) {
         demoRef = FirebaseFirestore.getInstance();
-
-        demoRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        DocumentReference docRef = demoRef.collection("Photographer").document(phoneNumber);
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if(dataSnapshot.child(phoneNumber).exists()){
-                    final DatabaseReference reference = demoRef.child(phoneNumber);
-                    reference.addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            if(dataSnapshot.child("Name").exists()){
-                                reference.child("Name").addListenerForSingleValueEvent(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(DataSnapshot dataSnapshot) {
-                                        String value = dataSnapshot.getValue(String.class);
-                                        Intent intent = new Intent(SplashActivity.this, HotelsPage.class);
-                                        intent.putExtra("Name", value);
-                                        startActivity(intent);
-                                        finish();
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        String value = document.getString("Name");
+                        //Intent intent = new Intent(SplashActivity.this, HotelsPage.class);
+                        //intent.putExtra("Name", value);
+                        //startActivity(intent);
+                        //finish();
+                    } else { Toast.makeText(SplashActivity.this, "Database high traffic !!", Toast.LENGTH_SHORT).show();
+                        TaskStackBuilder.create(getApplicationContext())
+                                .addNextIntentWithParentStack(new Intent(getApplicationContext(), MainActivity.class))
+                                .addNextIntent(new Intent(getApplicationContext(), IntroActivity.class))
+                                .startActivities();
 
-                                    }
-                                    @Override
-                                    public void onCancelled(DatabaseError databaseError) {
-                                        Toast.makeText(SplashActivity.this, "Database high traffic !!", Toast.LENGTH_SHORT).show();
-                                        TaskStackBuilder.create(getApplicationContext())
-                                                .addNextIntentWithParentStack(new Intent(getApplicationContext(), MainActivity.class))
-                                                .addNextIntent(new Intent(getApplicationContext(), IntroActivity.class))
-                                                .startActivities();
+                        finish();
 
-                                        finish();
-                                    }
-                                });
-                            }else{
-                                TaskStackBuilder.create(getApplicationContext())
-                                        .addNextIntentWithParentStack(new Intent(getApplicationContext(), MainActivity.class))
-                                        .addNextIntent(new Intent(getApplicationContext(), IntroActivity.class))
-                                        .startActivities();
-
-                                finish();
-                            }
-                        }
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-
-                            Toast.makeText(SplashActivity.this, "Database high traffic", Toast.LENGTH_SHORT).show();
-                            TaskStackBuilder.create(getApplicationContext())
-                                    .addNextIntentWithParentStack(new Intent(getApplicationContext(), MainActivity.class))
-                                    .addNextIntent(new Intent(getApplicationContext(), IntroActivity.class))
-                                    .startActivities();
-
-                            finish();
-                        }
-                    });
-                }else{
+                    }
+                } else {
                     TaskStackBuilder.create(getApplicationContext())
                             .addNextIntentWithParentStack(new Intent(getApplicationContext(), MainActivity.class))
                             .addNextIntent(new Intent(getApplicationContext(), IntroActivity.class))
@@ -182,18 +159,8 @@ public class SplashActivity extends AppCompatActivity {
                     finish();
                 }
             }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(SplashActivity.this, "Database high traffic", Toast.LENGTH_SHORT).show();
-                TaskStackBuilder.create(getApplicationContext())
-                        .addNextIntentWithParentStack(new Intent(getApplicationContext(), MainActivity.class))
-                        .addNextIntent(new Intent(getApplicationContext(), IntroActivity.class))
-                        .startActivities();
-
-                finish();
-            }
         });
+
 
 
     }
