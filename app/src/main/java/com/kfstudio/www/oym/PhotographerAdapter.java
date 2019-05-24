@@ -37,7 +37,7 @@ public class PhotographerAdapter extends FirestoreRecyclerAdapter<Photographer, 
        photographerHolder.name.setText(photographer.getPh_name());
        photographerHolder.experience.setText("Experience : "+photographer.getPh_experience()+"yrs");
        photographerHolder.location.setText(photographer.getPh_location());
-       photographerHolder.rating.setText(photographer.getPh_rating());
+       photographerHolder.rating.setText("Rating : "+photographer.getPh_rating()+"/10");
         Glide.with(v).load(photographer.getPh_profile_image_url())
                 .apply(new RequestOptions().placeholder(R.drawable.progress_animation))
                 .apply(RequestOptions.centerCropTransform())
