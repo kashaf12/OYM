@@ -58,7 +58,6 @@ public class PhotographerAdapter extends FirestoreRecyclerAdapter<Photographer, 
         TextView rating;
         TextView bt_profile;
         CircularImageView profile_image;
-        int prevposition = 0;
 
 
         public PhotographerHolder(@NonNull final View itemView) {
