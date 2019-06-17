@@ -11,17 +11,110 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        >
     <com.mikhaellopez.circularimageview.CircularImageView
         android:id="@+id/ph_profile_image_upload1"
-        android:layout_width="82dp"
-        android:layout_height="82dp"
-        android:layout_gravity="start"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="start|center_vertical"
         android:src="@drawable/blank_profile_picture_973460_960_720"/>
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:orientation="vertical">
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:orientation="horizontal"
+           android:gravity="center">
+           <LinearLayout
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:orientation="vertical"
+               android:layout_margin="4dp">
+               <TextView
+                   android:id="@+id/ph_like_upload1"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:text="500"
+                   android:layout_gravity="center"
+                   android:layout_margin="2dp"
+                   android:textSize="14sp"
+                   android:textColor="@android:color/black"/>
+               <TextView
+
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:text="Likes"
+                   android:textColor="@android:color/black"
+                   android:layout_margin="2dp"
+                   android:textSize="14sp"
+                   />
+           </LinearLayout>
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_margin="4dp">
+            <TextView
+                android:id="@+id/ph_experience_upload1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="5 yrs"
+                android:layout_gravity="center"
+                android:layout_margin="2dp"
+                android:textSize="14sp"
+                android:textColor="@android:color/black"/>
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Experience"
+                android:textColor="@android:color/black"
+                android:layout_margin="2dp"
+                android:textSize="14sp"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_margin="4dp">
+            <TextView
+                android:id="@+id/ph_rating_upload1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="5 star"
+                android:layout_gravity="center"
+                android:layout_margin="2dp"
+                android:textSize="14sp"
+                android:textColor="@android:color/black"/>
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Rating"
+                android:textColor="@android:color/black"
+                android:layout_margin="2dp"
+                android:textSize="14sp"
+                />
+        </LinearLayout>
+       </LinearLayout>
+          <Button
+              android:id="@+id/btn_like"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="@drawable/button"
+              android:text="Like"/>
+      </LinearLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp">
         <TextView
             android:id="@+id/ph_name_upload1"
             android:layout_width="wrap_content"
@@ -40,18 +133,18 @@
             android:layout_margin="2dp"
             android:textSize="16sp"
             />
-            <TextView
-                android:id="@+id/ph_phone_upload1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="+918229104558"
-                android:textColor="@android:color/black"
-                android:layout_margin="2dp"
-                android:textSize="16sp"
-                />
-        </LinearLayout>
     </LinearLayout>
-
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="About : "
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:textColor="@android:color/black"/>
     <TextView
         android:id="@+id/ph_description_upload1"
         android:layout_width="wrap_content"
@@ -61,6 +154,7 @@
         android:layout_marginBottom="4dp"
         android:textSize="16sp"
         />
+</LinearLayout>
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -69,65 +163,84 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Location : "
+            android:text="Speciality : "
             android:textSize="16sp"
             android:textStyle="bold"
             android:textColor="@android:color/black"/>
         <TextView
-            android:id="@+id/ph_location_upload1"
+            android:id="@+id/ph_speciality_upload1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Sultanpur"
+            android:text="Weading and baby shower"
+            android:singleLine="true"
             android:textColor="@android:color/black"
             android:textSize="16sp"
             />
     </LinearLayout>
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginBottom="4dp">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Experience : "
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:textColor="@android:color/black"/>
-                <TextView
-                    android:id="@+id/ph_experience_upload1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="5 yrs"
-                    android:textColor="@android:color/black"
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="4dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Rate : "
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"/>
+        <TextView
+            android:id="@+id/ph_rate_upload1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="₹ 50/hr"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="4dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Number of pics : "
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"/>
+        <TextView
+            android:id="@+id/ph_number_of_pics_upload1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="50 pics (softcopy)"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="4dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Extra charge : "
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"/>
+        <TextView
+            android:id="@+id/ph_extra_pics_upload1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="₹ 10/pic (Softcopy)"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            />
+    </LinearLayout>
 
-                    android:textSize="16sp"
-                    />
-
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginBottom="4dp">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Rating : "
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:textColor="@android:color/black"/>
-                <TextView
-                    android:id="@+id/ph_rating_upload1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="5/5"
-                    android:textColorHint="@color/iron"
-                    android:textColor="@android:color/black"
-                    android:textSize="16sp"
-                    />
-
-            </LinearLayout>
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -160,63 +273,68 @@
                 android:layout_marginTop="15dp"
                 android:layout_marginBottom="5dp"
                 android:background="#447e7e7e" />
+    <HorizontalScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:gravity="center"
                     >
                     <ImageView
                         android:id="@+id/ph_image_1_upload1"
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
+                        android:layout_width="120dp"
+                        android:layout_height="120dp"
                         android:layout_margin="2dp"
                         android:background="@color/iron"
                         android:src="@drawable/baseline_add_white_24"
-
                         />
-
-
                     <ImageView
                         android:id="@+id/ph_image_2_upload1"
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
+                        android:layout_width="120dp"
+                        android:layout_height="120dp"
                         android:layout_margin="2dp"
-
                         android:background="@color/iron"
                         android:src="@drawable/baseline_add_white_24"
                         />
-                </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center">
                     <ImageView
                         android:id="@+id/ph_image_3_upload1"
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
+                        android:layout_width="120dp"
+                        android:layout_height="120dp"
                         android:layout_margin="2dp"
                         android:background="@color/iron"
                         android:src="@drawable/baseline_add_white_24"
                         />
                     <ImageView
                         android:id="@+id/ph_image_4_upload1"
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
+                        android:layout_width="120dp"
+                        android:layout_height="120dp"
                         android:layout_margin="2dp"
                         android:background="@color/iron"
                         android:src="@drawable/baseline_add_white_24"
                         />
-
                 </LinearLayout>
-
-            <LinearLayout
+    </HorizontalScrollView>
+               <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:orientation="vertical"
+                   android:layout_gravity="center"
+                   android:gravity="center"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp">
+                   <Button
+                       android:id="@+id/ph_rate_now_upload1"
+                       android:layout_gravity="center"
+                       android:textAlignment="center"
+                       android:layout_width="match_parent"
+                       android:background="@drawable/button"
+                       android:layout_height="match_parent"
+                       android:layout_marginBottom="8dp"
+                       android:text="Rate Now"
+                       android:textColor="@color/accent"
+                       android:textSize="16sp"
+                       />
                 <Button
                     android:id="@+id/ph_publish_upload1"
                     android:layout_gravity="center"
@@ -224,9 +342,8 @@
                     android:layout_width="match_parent"
                     android:background="@drawable/button"
                     android:layout_height="match_parent"
-                    android:text="Book"
+                    android:text="Book Now"
                     android:textColor="@color/accent"
-                    android:layout_marginStart="8dp"
                     android:textSize="16sp"
                     />
             </LinearLayout>

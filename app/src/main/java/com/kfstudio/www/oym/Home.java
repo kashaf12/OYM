@@ -1,12 +1,14 @@
 package com.kfstudio.www.oym;
 
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.text.TextUtils;
+import android.view.ContextThemeWrapper;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,10 +16,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
@@ -97,18 +101,18 @@ public class Home extends AppCompatActivity{
     private StorageReference storageReference;
     Uri us_profile_image_url;
     int calling;
-    Dialog dialog;
+    Dialog dialog1;
     String email="Loading..";
     private int GALLERY = 1;
     String dob="Loading";
     String gender="Male";
     Map<String,Object> photo;
-    FloatingActionButton floatingActionButton;
+//    FloatingActionButton floatingActionButton;
     BottomAppBar bottomAppBar;
     EditText ph_name,ph_email,ph_phone,ph_location,ph_experience,ph_rating,ph_website,ph_description;
-    TextView ph_nametv,ph_emailtv,ph_phonetv,ph_locationtv,ph_experiencetv,ph_ratingtv,ph_websitetv,ph_descriptiontv;
+    TextView ph_nametv,ph_emailtv,ph_phonetv,ph_locationtv,ph_experiencetv,ph_ratingtv,ph_websitetv,ph_descriptiontv,ph_likestv,ph_extra_picstv,ph_specialitytv,ph_ratetv,ph_number_of_picstv;
     String ph_name_string,ph_email_string,ph_phone_string,ph_location_string,ph_experience_string,ph_rating_string,ph_website_string,ph_description_string;
-    Button publish,publishtv;
+    Button publish,publishtv,likestv,rate_nowtv;
     CircularImageView ph_profile_image,ph_profile_imagetv;
     ImageView ph_image_1_upload,ph_image_2_upload,ph_image_3_upload,ph_image_4_upload;
     ImageView ph_image_1_uploadtv,ph_image_2_uploadtv,ph_image_3_uploadtv,ph_image_4_uploadtv;
@@ -124,7 +128,7 @@ public class Home extends AppCompatActivity{
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         bottomAppBar=findViewById(R.id.bottom_app_bar);
-        floatingActionButton = findViewById(R.id.fab);
+//        floatingActionButton = findViewById(R.id.fab);
         db = FirebaseFirestore.getInstance();
         storage = FirebaseStorage.getInstance();
         //main line for setting menu in bottom app bar
@@ -172,138 +176,138 @@ public class Home extends AppCompatActivity{
             }
         });
 
-        floatingActionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog = new Dialog(Home.this);
-                dialog.setContentView(R.layout.photographer_dialog);
-              dialog.getWindow().setLayout(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT);
-                ph_name =dialog.findViewById(R.id.ph_name_upload);
-                ph_email =dialog.findViewById(R.id.ph_email_upload);
-                ph_phone =dialog.findViewById(R.id.ph_phone_upload);
-                ph_location=dialog.findViewById(R.id.ph_location_upload);
-                ph_experience= dialog.findViewById(R.id.ph_experience_upload);
-                ph_rating=dialog.findViewById(R.id.ph_rating_upload);
-                ph_website=dialog.findViewById(R.id.ph_website_upload);
-                ph_description=dialog.findViewById(R.id.ph_description_upload);
-                publish=dialog.findViewById(R.id.ph_publish_upload);
-                ph_profile_image=dialog.findViewById(R.id.ph_profile_image_upload);
-                ph_image_1_upload=dialog.findViewById(R.id.ph_image_1_upload);
-                ph_image_2_upload=dialog.findViewById(R.id.ph_image_2_upload);
-                ph_image_3_upload=dialog.findViewById(R.id.ph_image_3_upload);
-                ph_image_4_upload=dialog.findViewById(R.id.ph_image_4_upload);
-                ph_profile_image.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        calling =1;
-                        choosePhotoFromGallary();
-                    }
-                });
-                 ph_image_1_upload.setOnClickListener(new View.OnClickListener() {
-                     @Override
-                     public void onClick(View v) {
-                         calling =2;
-                         choosePhotoFromGallary();
-                     }
-                 });
-                ph_image_2_upload.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        calling =3;
-                        choosePhotoFromGallary();
-                    }
-                });
-                ph_image_3_upload.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        calling =4;
-                        choosePhotoFromGallary();
-                    }
-                });
-                ph_image_4_upload.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        calling =5;
-                        choosePhotoFromGallary();
-                    }
-                });
-                publish.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        ph_name_string =ph_name.getText().toString().trim();
-                        ph_email_string = ph_email.getText().toString().trim();
-                        ph_experience_string = ph_experience.getText().toString().trim();
-                        ph_phone_string = ph_phone.getText().toString().trim();
-                        ph_location_string =ph_location.getText().toString().trim();
-                        ph_rating_string = ph_rating.getText().toString().trim();
-                        ph_description_string = ph_description.getText().toString().trim();
-                        ph_website_string = ph_website.getText().toString().trim();
-
-                        if (!(TextUtils.isEmpty(ph_name_string)||
-                              TextUtils.isEmpty(ph_email_string)||
-                              TextUtils.isEmpty(ph_experience_string)||
-                                TextUtils.isEmpty(ph_phone_string)||
-                                TextUtils.isEmpty(ph_location_string)||
-                                TextUtils.isEmpty(ph_rating_string)||
-                                TextUtils.isEmpty(ph_description_string)||
-                                TextUtils.isEmpty(ph_website_string)||
-                                compressedImage1==null||
-                                compressedImage2==null||
-                                compressedImage3==null||
-                                compressedImage4==null||
-                                compressedImage5==null)) {
-//                            if (compressedImage == null) {
-//                                new Compressor(getApplicationContext())
-//                                        .setMaxWidth(60)
-//                                        .setMaxHeight(60)
-//                                        .setQuality(50)
-//                                        .setCompressFormat(Bitmap.CompressFormat.WEBP)
-//                                        .setDestinationDirectoryPath(Environment.getExternalStoragePublicDirectory(
-//                                                Environment.DIRECTORY_PICTURES).getAbsolutePath())
-//                                        .compressToFileAsFlowable(new File(getURLForResource(R.drawable.blank_profile_picture)))
-//                                        .subscribeOn(Schedulers.io())
-//                                        .observeOn(AndroidSchedulers.mainThread())
-//                                        .subscribe(new Consumer<File>() {
-//                                            @Override
-//                                            public void accept(File file) {
-//                                                compressedImage = file;
-//                                            }
-//                                        }, new Consumer<Throwable>() {
-//                                            @Override
-//                                            public void accept(Throwable throwable) {
-//                                                throwable.printStackTrace();
-//                                                showError(throwable.getMessage());
-//                                            }
-//                                        });
-//                            }
-
-                            uploadPoll(ph_name_string,
-                                    ph_phone_string,ph_email_string,ph_experience_string,
-                                    ph_location_string,ph_rating_string,
-                                    ph_website_string,ph_description_string);
-                            uploadImage("ph_profile_image_url");
-                            uploadImage("ph_image_1");
-                            uploadImage("ph_image_2");
-                            uploadImage("ph_image_3");
-                            uploadImage("ph_image_4");
-
-                            dialog.dismiss();
-                        }else{
-                            Toast.makeText(Home.this, "Invalid Input", Toast.LENGTH_SHORT).show();
-                        }
-
-
-                    }
-                });
-                dialog.show();
-            }
-
-
-        });
+//        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                dialog = new Dialog(Home.this);
+//                dialog.setContentView(R.layout.photographer_dialog);
+//              dialog.getWindow().setLayout(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT);
+//                ph_name =dialog.findViewById(R.id.ph_name_upload);
+//                ph_email =dialog.findViewById(R.id.ph_email_upload);
+//                ph_phone =dialog.findViewById(R.id.ph_phone_upload);
+//                ph_location=dialog.findViewById(R.id.ph_location_upload);
+//                ph_experience= dialog.findViewById(R.id.ph_experience_upload);
+//                ph_rating=dialog.findViewById(R.id.ph_rating_upload);
+//                ph_website=dialog.findViewById(R.id.ph_website_upload);
+//                ph_description=dialog.findViewById(R.id.ph_description_upload);
+//                publish=dialog.findViewById(R.id.ph_publish_upload);
+//                ph_profile_image=dialog.findViewById(R.id.ph_profile_image_upload);
+//                ph_image_1_upload=dialog.findViewById(R.id.ph_image_1_upload);
+//                ph_image_2_upload=dialog.findViewById(R.id.ph_image_2_upload);
+//                ph_image_3_upload=dialog.findViewById(R.id.ph_image_3_upload);
+//                ph_image_4_upload=dialog.findViewById(R.id.ph_image_4_upload);
+//                ph_profile_image.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        calling =1;
+//                        choosePhotoFromGallary();
+//                    }
+//                });
+//                 ph_image_1_upload.setOnClickListener(new View.OnClickListener() {
+//                     @Override
+//                     public void onClick(View v) {
+//                         calling =2;
+//                         choosePhotoFromGallary();
+//                     }
+//                 });
+//                ph_image_2_upload.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        calling =3;
+//                        choosePhotoFromGallary();
+//                    }
+//                });
+//                ph_image_3_upload.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        calling =4;
+//                        choosePhotoFromGallary();
+//                    }
+//                });
+//                ph_image_4_upload.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        calling =5;
+//                        choosePhotoFromGallary();
+//                    }
+//                });
+//                publish.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        ph_name_string =ph_name.getText().toString().trim();
+//                        ph_email_string = ph_email.getText().toString().trim();
+//                        ph_experience_string = ph_experience.getText().toString().trim();
+//                        ph_phone_string = ph_phone.getText().toString().trim();
+//                        ph_location_string =ph_location.getText().toString().trim();
+//                        ph_rating_string = ph_rating.getText().toString().trim();
+//                        ph_description_string = ph_description.getText().toString().trim();
+//                        ph_website_string = ph_website.getText().toString().trim();
+//
+//                        if (!(TextUtils.isEmpty(ph_name_string)||
+//                              TextUtils.isEmpty(ph_email_string)||
+//                              TextUtils.isEmpty(ph_experience_string)||
+//                                TextUtils.isEmpty(ph_phone_string)||
+//                                TextUtils.isEmpty(ph_location_string)||
+//                                TextUtils.isEmpty(ph_rating_string)||
+//                                TextUtils.isEmpty(ph_description_string)||
+//                                TextUtils.isEmpty(ph_website_string)||
+//                                compressedImage1==null||
+//                                compressedImage2==null||
+//                                compressedImage3==null||
+//                                compressedImage4==null||
+//                                compressedImage5==null)) {
+////                            if (compressedImage == null) {
+////                                new Compressor(getApplicationContext())
+////                                        .setMaxWidth(60)
+////                                        .setMaxHeight(60)
+////                                        .setQuality(50)
+////                                        .setCompressFormat(Bitmap.CompressFormat.WEBP)
+////                                        .setDestinationDirectoryPath(Environment.getExternalStoragePublicDirectory(
+////                                                Environment.DIRECTORY_PICTURES).getAbsolutePath())
+////                                        .compressToFileAsFlowable(new File(getURLForResource(R.drawable.blank_profile_picture)))
+////                                        .subscribeOn(Schedulers.io())
+////                                        .observeOn(AndroidSchedulers.mainThread())
+////                                        .subscribe(new Consumer<File>() {
+////                                            @Override
+////                                            public void accept(File file) {
+////                                                compressedImage = file;
+////                                            }
+////                                        }, new Consumer<Throwable>() {
+////                                            @Override
+////                                            public void accept(Throwable throwable) {
+////                                                throwable.printStackTrace();
+////                                                showError(throwable.getMessage());
+////                                            }
+////                                        });
+////                            }
+//
+//                            uploadPoll(ph_name_string,
+//                                    ph_phone_string,ph_email_string,ph_experience_string,
+//                                    ph_location_string,ph_rating_string,
+//                                    ph_website_string,ph_description_string);
+//                            uploadImage("ph_profile_image_url");
+//                            uploadImage("ph_image_1");
+//                            uploadImage("ph_image_2");
+//                            uploadImage("ph_image_3");
+//                            uploadImage("ph_image_4");
+//
+//                            dialog.dismiss();
+//                        }else{
+//                            Toast.makeText(Home.this, "Invalid Input", Toast.LENGTH_SHORT).show();
+//                        }
+//
+//
+//                    }
+//                });
+//                dialog.show();
+//            }
+//
+//
+//        });
     }
 
     private void setUpRecyclerView() {
-        Query query = dbr.orderBy("ph_time", Query.Direction.DESCENDING);
+        Query query = dbr.orderBy("ph_likes", Query.Direction.DESCENDING);
         FirestoreRecyclerOptions<Photographer> options = new FirestoreRecyclerOptions.Builder<Photographer>()
                 .setQuery(query,Photographer.class).build();
         photograperAdapter = new PhotographerAdapter(options);
@@ -313,37 +317,104 @@ public class Home extends AppCompatActivity{
 
         photograperAdapter.setOnItemClickListener(new PhotographerAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
-                dialog = new Dialog(Home.this);
-                dialog.setContentView(R.layout.photographer_profile);
-                dialog.getWindow().setLayout(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT);
-                ph_nametv =dialog.findViewById(R.id.ph_name_upload1);
-                ph_emailtv =dialog.findViewById(R.id.ph_email_upload1);
-                ph_phonetv =dialog.findViewById(R.id.ph_phone_upload1);
-                ph_locationtv=dialog.findViewById(R.id.ph_location_upload1);
-                ph_experiencetv= dialog.findViewById(R.id.ph_experience_upload1);
-                ph_ratingtv=dialog.findViewById(R.id.ph_rating_upload1);
-                ph_websitetv=dialog.findViewById(R.id.ph_website_upload1);
-                ph_descriptiontv=dialog.findViewById(R.id.ph_description_upload1);
-                publishtv=dialog.findViewById(R.id.ph_publish_upload1);
-                ph_profile_imagetv=dialog.findViewById(R.id.ph_profile_image_upload1);
-                ph_image_1_uploadtv=dialog.findViewById(R.id.ph_image_1_upload1);
-                ph_image_2_uploadtv=dialog.findViewById(R.id.ph_image_2_upload1);
-                ph_image_3_uploadtv=dialog.findViewById(R.id.ph_image_3_upload1);
-                ph_image_4_uploadtv=dialog.findViewById(R.id.ph_image_4_upload1);
+            public void onItemClick(final DocumentSnapshot documentSnapshot, int position) {
+                dialog1 = new Dialog(Home.this);
+                dialog1.setContentView(R.layout.photographer_profile);
+                dialog1.getWindow().setLayout(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT);
+                final int likes = Integer.parseInt(documentSnapshot.getString("ph_likes"));
+                ph_nametv =dialog1.findViewById(R.id.ph_name_upload1);
+                rate_nowtv=dialog1.findViewById(R.id.ph_rate_now_upload1);
+                ph_emailtv =dialog1.findViewById(R.id.ph_email_upload1);
+                ph_likestv=dialog1.findViewById(R.id.ph_like_upload1);
+                likestv = dialog1.findViewById(R.id.btn_like);
+                ph_experiencetv= dialog1.findViewById(R.id.ph_experience_upload1);
+                ph_ratingtv=dialog1.findViewById(R.id.ph_rating_upload1);
+                ph_websitetv=dialog1.findViewById(R.id.ph_website_upload1);
+                ph_specialitytv=dialog1.findViewById(R.id.ph_speciality_upload1);
+                ph_ratetv=dialog1.findViewById(R.id.ph_rate_upload1);
+                ph_number_of_picstv=dialog1.findViewById(R.id.ph_number_of_pics_upload1);
+                ph_extra_picstv=dialog1.findViewById(R.id.ph_extra_pics_upload1);
+                ph_descriptiontv=dialog1.findViewById(R.id.ph_description_upload1);
+                publishtv=dialog1.findViewById(R.id.ph_publish_upload1);
+                ph_profile_imagetv=dialog1.findViewById(R.id.ph_profile_image_upload1);
+                ph_image_1_uploadtv=dialog1.findViewById(R.id.ph_image_1_upload1);
+                ph_image_2_uploadtv=dialog1.findViewById(R.id.ph_image_2_upload1);
+                ph_image_3_uploadtv=dialog1.findViewById(R.id.ph_image_3_upload1);
+                ph_image_4_uploadtv=dialog1.findViewById(R.id.ph_image_4_upload1);
                 ph_nametv.setText(documentSnapshot.getString("ph_name"));
+                ph_extra_picstv.setText("₹"+documentSnapshot.getString("ph_extra")+"/pic(Softcopy)");
                 ph_emailtv.setText(documentSnapshot.getString("ph_email"));
-                ph_phonetv .setText(documentSnapshot.getString("ph_phone_number"));
-                ph_locationtv.setText(documentSnapshot.getString("ph_location"));
-                ph_experiencetv.setText(documentSnapshot.getString("ph_experience")+" yrs");
+                ph_experiencetv.setText(documentSnapshot.getString("ph_experience")+"yrs");
                 ph_ratingtv.setText(documentSnapshot.getString("ph_rating")+"/5");
                 ph_websitetv .setText(documentSnapshot.getString("ph_website"));
                 ph_descriptiontv.setText(documentSnapshot.getString("ph_description"));
+                ph_number_of_picstv.setText(documentSnapshot.getString("ph_no_pic")+"pics(Softcopy)");
+                ph_ratetv.setText("₹"+documentSnapshot.getString("ph_rate")+"/hr");
+                ph_specialitytv.setText(documentSnapshot.getString("ph_speciality"));
+                ph_likestv.setText(String.valueOf(likes));
+                rate_nowtv.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        final Dialog rankDialog = new Dialog(Home.this, R.style.FullHeightDialog);
+                        rankDialog.setContentView(R.layout.rank_dialog);
+                        rankDialog.setCancelable(true);
+                        final RatingBar ratingBar = (RatingBar)rankDialog.findViewById(R.id.dialog_ratingbar);
+                        ratingBar.setRating(Integer.parseInt(documentSnapshot.getString("ph_rating")));
+                        ratingBar.setMax(5);
+
+                        TextView text = (TextView) rankDialog.findViewById(R.id.rank_dialog_text1);
+                        text.setText("Rate "+documentSnapshot.getString("ph_name"));
+
+                        Button updateButton = (Button) rankDialog.findViewById(R.id.rank_dialog_button);
+                        updateButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                ph_ratingtv.setText(ratingBar.getRating()+"/5");
+                                db.collection("Photographer")
+                                        .document(documentSnapshot.getString("ph_phone_number")).update("ph_rating",String.valueOf(ratingBar.getRating()));
+                                rankDialog.dismiss();
+                                dialog1.dismiss();
+                            }
+                        });
+                        //now that the dialog is set up, it's time to show it
+                        rankDialog.show();
+                    }
+                });
+                likestv.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        likestv.setText("Liked");
+                        likestv.setClickable(false);
+                        int l = Integer.parseInt(documentSnapshot.getString("ph_likes"));
+                        ph_likestv.setText(String.valueOf(l+1));
+                        db.collection("Photographer")
+                                .document(documentSnapshot.getString("ph_phone_number")).update("ph_likes",String.valueOf(likes+1));
+                    }
+                });
                 publishtv.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Toast.makeText(Home.this, ph_nametv.getText().toString()+" will contact you!!", Toast.LENGTH_SHORT).show();
-                        dialog.dismiss();
+                        AlertDialog.Builder builder= new AlertDialog.Builder(new ContextThemeWrapper(Home.this,R.style.Theme_AppCompat_DayNight_Dialog));
+                        builder.setMessage("Do you want to confirm this booking") .setTitle("Confirmation")
+                                .setCancelable(false)
+                                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        dialog.cancel();
+                                        uploadPoll(documentSnapshot.getString("ph_phone_number"),us_name,us_email,us_gender,currentUser.getPhoneNumber());
+                                        Toast.makeText(getApplicationContext(),ph_nametv.getText().toString()+" will contact you!!",
+                                                Toast.LENGTH_SHORT).show();
+                                        dialog1.dismiss();
+                                    }
+                                })
+                                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        dialog.cancel();
+                                        dialog1.dismiss();
+                                    }
+                                });
+                        AlertDialog alert = builder.create();
+                        alert.show();
+
                     }
                 });
                 Glide.with(getApplicationContext()).load(documentSnapshot.getString("ph_profile_image_url"))
@@ -371,26 +442,24 @@ public class Home extends AppCompatActivity{
                     }
                     i++;
                 }
-                dialog.show();
+                dialog1.show();
 
                }
         });
     }
 
-    private void uploadPoll(String up_name, String up_phone, String up_email, String up_experience,
-                            String up_location,String up_rating, String up_website, String up_description) {
+    private void uploadPoll(String booking_for, String booker_name, String booker_email, String booker_gender,
+                            String booker_phone) {
         currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
-        Map<String,Object> photographer = new HashMap<>();
-        photographer.put("ph_name",up_name);
-        photographer.put("ph_email",up_email);
-        photographer.put("ph_phone_number",up_phone);
-        photographer.put("ph_experience",up_experience);
-        photographer.put("ph_location",up_location);
-        photographer.put("ph_rating",up_rating);
-        photographer.put("ph_time",currentDateTimeString);
-        photographer.put("ph_description",up_description);
-        photographer.put("ph_website",up_website);
-        db.collection("Photographer").document(currentDateTimeString).set(photographer);
+        Map<String,Object> booking = new HashMap<>();
+       booking.put("booking_for",booking_for);
+       booking.put("booker_name",booker_name);
+       booking.put("booker_email",booker_email);
+       booking.put("booker_gender",booker_gender);
+       booking.put("booking_time",currentDateTimeString);
+       booking.put("booker_phone",booker_phone);
+       booking.put("booking_done",false);
+        db.collection("Booking").document(currentDateTimeString).set(booking);
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -400,8 +469,8 @@ public class Home extends AppCompatActivity{
 
     private  void database(final String phone){
 
-        documentReference = db.collection("OYM").document("Users")
-                .collection(phone).document("ProfileInformation");
+        documentReference = db.collection("Users")
+                .document(phone);
         documentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {

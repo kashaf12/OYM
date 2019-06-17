@@ -1,5 +1,7 @@
 package com.kfstudio.www.oym;
 
+
+import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -225,9 +227,9 @@ public class  MainActivity extends AppCompatActivity {
         Dexter.withActivity(this)
                 .withPermissions(
 
-                        android.Manifest.permission.INTERNET,
-                        android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                        android.Manifest.permission.READ_EXTERNAL_STORAGE)
+                        Manifest.permission.INTERNET,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.READ_EXTERNAL_STORAGE)
                 .withListener(new MultiplePermissionsListener() {
                     @Override
                     public void onPermissionsChecked(MultiplePermissionsReport report) {
@@ -247,6 +249,9 @@ public class  MainActivity extends AppCompatActivity {
                                     sendButton.setVisibility(View.VISIBLE);
 
                                 }
+                            }else{
+                                Toast.makeText(MainActivity.this, "No Network found please Restart", Toast.LENGTH_LONG).show();
+
                             }
                         }
                         // check for permanent denial of any permission
@@ -305,8 +310,8 @@ public class  MainActivity extends AppCompatActivity {
 
     private  void database(final String phone){
         db = FirebaseFirestore.getInstance();
-        documentReference = db.collection("OYM").document("Users")
-                .collection(phone).document("ProfileInformation");
+        documentReference = db.collection("Users")
+                .document(phone);
         documentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {

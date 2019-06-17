@@ -229,8 +229,8 @@ public class Register_Activity extends AppCompatActivity {
                     user.put("us_email", Email);
                     user.put("us_dob", Dob);
                     user.put("us_gender", radiosex);
-                    db.collection("OYM").document("Users")
-                            .collection(phoneNumber).document("ProfileInformation")
+                    db.collection("Users")
+                            .document(phoneNumber)
                             .set(user);
                     uploadImage();
 
@@ -327,13 +327,9 @@ public class Register_Activity extends AppCompatActivity {
     }
 
 
-    public void showError(String errorMessage) {
-        Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show();
-    }
-
     public void customCompressImage(final Boolean type) {
         if (actualImage == null) {
-            showError("Please choose an image!");
+            Toast.makeText(this, "Please choose an image!", Toast.LENGTH_SHORT).show();;
         } else {
             new Compressor(this)
                     .setMaxWidth(60)
@@ -357,7 +353,7 @@ public class Register_Activity extends AppCompatActivity {
                         @Override
                         public void accept(Throwable throwable) {
                             throwable.printStackTrace();
-                            showError(throwable.getMessage());
+
                         }
                     });
         }
