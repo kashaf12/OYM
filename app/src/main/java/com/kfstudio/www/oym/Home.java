@@ -359,7 +359,7 @@ public class Home extends AppCompatActivity{
                         rankDialog.setContentView(R.layout.rank_dialog);
                         rankDialog.setCancelable(true);
                         final RatingBar ratingBar = (RatingBar)rankDialog.findViewById(R.id.dialog_ratingbar);
-                        ratingBar.setRating(Integer.parseInt(documentSnapshot.getString("ph_rating")));
+                        ratingBar.setRating(0);
                         ratingBar.setMax(5);
 
                         TextView text = (TextView) rankDialog.findViewById(R.id.rank_dialog_text1);
