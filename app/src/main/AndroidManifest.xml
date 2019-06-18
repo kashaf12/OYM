@@ -29,5 +29,8 @@ package="com.kfstudio.www.oym">
         android:name=".Home"
         android:screenOrientation="portrait"
         android:theme="@style/AppTheme.Materil"/>
+        <activity android:name=".BookingActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Materil"/>
 </application>
 </manifest>

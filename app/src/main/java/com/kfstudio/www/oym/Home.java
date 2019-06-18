@@ -68,7 +68,7 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 public class Home extends AppCompatActivity{
-
+    private FloatingActionButton floatingActionButton;
     private final String KEY_RECYCLER_STATE = "recycler_state";
     private static Bundle mBundleRecyclerViewState;
     RecyclerView recyclerView;
@@ -101,13 +101,13 @@ public class Home extends AppCompatActivity{
     private StorageReference storageReference;
     Uri us_profile_image_url;
     int calling;
-    Dialog dialog1;
+    Dialog dialog1,dialog2;
     String email="Loading..";
     private int GALLERY = 1;
     String dob="Loading";
     String gender="Male";
     Map<String,Object> photo;
-//    FloatingActionButton floatingActionButton;
+    //    FloatingActionButton floatingActionButton;
     BottomAppBar bottomAppBar;
     EditText ph_name,ph_email,ph_phone,ph_location,ph_experience,ph_rating,ph_website,ph_description;
     TextView ph_nametv,ph_emailtv,ph_phonetv,ph_locationtv,ph_experiencetv,ph_ratingtv,ph_websitetv,ph_descriptiontv,ph_likestv,ph_extra_picstv,ph_specialitytv,ph_ratetv,ph_number_of_picstv;
@@ -128,6 +128,7 @@ public class Home extends AppCompatActivity{
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         bottomAppBar=findViewById(R.id.bottom_app_bar);
+        floatingActionButton = findViewById(R.id.fab);
 //        floatingActionButton = findViewById(R.id.fab);
         db = FirebaseFirestore.getInstance();
         storage = FirebaseStorage.getInstance();
@@ -167,6 +168,13 @@ public class Home extends AppCompatActivity{
             }
 
         });
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent2 = new Intent(Home.this,BookingActivity.class);
+                startActivity(intent2);
+            }
+        });
         bottomAppBar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -176,134 +184,6 @@ public class Home extends AppCompatActivity{
             }
         });
 
-//        floatingActionButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                dialog = new Dialog(Home.this);
-//                dialog.setContentView(R.layout.photographer_dialog);
-//              dialog.getWindow().setLayout(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT);
-//                ph_name =dialog.findViewById(R.id.ph_name_upload);
-//                ph_email =dialog.findViewById(R.id.ph_email_upload);
-//                ph_phone =dialog.findViewById(R.id.ph_phone_upload);
-//                ph_location=dialog.findViewById(R.id.ph_location_upload);
-//                ph_experience= dialog.findViewById(R.id.ph_experience_upload);
-//                ph_rating=dialog.findViewById(R.id.ph_rating_upload);
-//                ph_website=dialog.findViewById(R.id.ph_website_upload);
-//                ph_description=dialog.findViewById(R.id.ph_description_upload);
-//                publish=dialog.findViewById(R.id.ph_publish_upload);
-//                ph_profile_image=dialog.findViewById(R.id.ph_profile_image_upload);
-//                ph_image_1_upload=dialog.findViewById(R.id.ph_image_1_upload);
-//                ph_image_2_upload=dialog.findViewById(R.id.ph_image_2_upload);
-//                ph_image_3_upload=dialog.findViewById(R.id.ph_image_3_upload);
-//                ph_image_4_upload=dialog.findViewById(R.id.ph_image_4_upload);
-//                ph_profile_image.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        calling =1;
-//                        choosePhotoFromGallary();
-//                    }
-//                });
-//                 ph_image_1_upload.setOnClickListener(new View.OnClickListener() {
-//                     @Override
-//                     public void onClick(View v) {
-//                         calling =2;
-//                         choosePhotoFromGallary();
-//                     }
-//                 });
-//                ph_image_2_upload.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        calling =3;
-//                        choosePhotoFromGallary();
-//                    }
-//                });
-//                ph_image_3_upload.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        calling =4;
-//                        choosePhotoFromGallary();
-//                    }
-//                });
-//                ph_image_4_upload.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        calling =5;
-//                        choosePhotoFromGallary();
-//                    }
-//                });
-//                publish.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        ph_name_string =ph_name.getText().toString().trim();
-//                        ph_email_string = ph_email.getText().toString().trim();
-//                        ph_experience_string = ph_experience.getText().toString().trim();
-//                        ph_phone_string = ph_phone.getText().toString().trim();
-//                        ph_location_string =ph_location.getText().toString().trim();
-//                        ph_rating_string = ph_rating.getText().toString().trim();
-//                        ph_description_string = ph_description.getText().toString().trim();
-//                        ph_website_string = ph_website.getText().toString().trim();
-//
-//                        if (!(TextUtils.isEmpty(ph_name_string)||
-//                              TextUtils.isEmpty(ph_email_string)||
-//                              TextUtils.isEmpty(ph_experience_string)||
-//                                TextUtils.isEmpty(ph_phone_string)||
-//                                TextUtils.isEmpty(ph_location_string)||
-//                                TextUtils.isEmpty(ph_rating_string)||
-//                                TextUtils.isEmpty(ph_description_string)||
-//                                TextUtils.isEmpty(ph_website_string)||
-//                                compressedImage1==null||
-//                                compressedImage2==null||
-//                                compressedImage3==null||
-//                                compressedImage4==null||
-//                                compressedImage5==null)) {
-////                            if (compressedImage == null) {
-////                                new Compressor(getApplicationContext())
-////                                        .setMaxWidth(60)
-////                                        .setMaxHeight(60)
-////                                        .setQuality(50)
-////                                        .setCompressFormat(Bitmap.CompressFormat.WEBP)
-////                                        .setDestinationDirectoryPath(Environment.getExternalStoragePublicDirectory(
-////                                                Environment.DIRECTORY_PICTURES).getAbsolutePath())
-////                                        .compressToFileAsFlowable(new File(getURLForResource(R.drawable.blank_profile_picture)))
-////                                        .subscribeOn(Schedulers.io())
-////                                        .observeOn(AndroidSchedulers.mainThread())
-////                                        .subscribe(new Consumer<File>() {
-////                                            @Override
-////                                            public void accept(File file) {
-////                                                compressedImage = file;
-////                                            }
-////                                        }, new Consumer<Throwable>() {
-////                                            @Override
-////                                            public void accept(Throwable throwable) {
-////                                                throwable.printStackTrace();
-////                                                showError(throwable.getMessage());
-////                                            }
-////                                        });
-////                            }
-//
-//                            uploadPoll(ph_name_string,
-//                                    ph_phone_string,ph_email_string,ph_experience_string,
-//                                    ph_location_string,ph_rating_string,
-//                                    ph_website_string,ph_description_string);
-//                            uploadImage("ph_profile_image_url");
-//                            uploadImage("ph_image_1");
-//                            uploadImage("ph_image_2");
-//                            uploadImage("ph_image_3");
-//                            uploadImage("ph_image_4");
-//
-//                            dialog.dismiss();
-//                        }else{
-//                            Toast.makeText(Home.this, "Invalid Input", Toast.LENGTH_SHORT).show();
-//                        }
-//
-//
-//                    }
-//                });
-//                dialog.show();
-//            }
-//
-//
-//        });
     }
 
     private void setUpRecyclerView() {
@@ -394,27 +274,30 @@ public class Home extends AppCompatActivity{
                 publishtv.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        AlertDialog.Builder builder= new AlertDialog.Builder(new ContextThemeWrapper(Home.this,R.style.Theme_AppCompat_DayNight_Dialog));
-                        builder.setMessage("Do you want to confirm this booking") .setTitle("Confirmation")
-                                .setCancelable(false)
-                                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        dialog.cancel();
-                                        uploadPoll(documentSnapshot.getString("ph_phone_number"),us_name,us_email,us_gender,currentUser.getPhoneNumber());
-                                        Toast.makeText(getApplicationContext(),ph_nametv.getText().toString()+" will contact you!!",
-                                                Toast.LENGTH_SHORT).show();
-                                        dialog1.dismiss();
-                                    }
-                                })
-                                .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        dialog.cancel();
-                                        dialog1.dismiss();
-                                    }
-                                });
-                        AlertDialog alert = builder.create();
-                        alert.show();
+                        dialog2 = new Dialog(Home.this);
+                        dialog2.setContentView(R.layout.photographer_dialog);
+                        dialog2.getWindow().setLayout(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT);
+                        Button cart = dialog2.findViewById(R.id.cart);
+                        uploadPoll(documentSnapshot.getString("ph_phone_number"),us_name,us_email,us_gender,currentUser.getPhoneNumber(),documentSnapshot.getString("ph_rate"));
+                        Button ok = dialog2.findViewById(R.id.ok);
+                        cart.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
 
+                                Intent cart1 = new Intent(Home.this,BookingActivity.class);
+                                startActivity(cart1);
+                                dialog2.dismiss();
+                                dialog1.dismiss();
+                            }
+                        });
+                        ok.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                dialog2.dismiss();
+                                dialog1.dismiss();
+                            }
+                        });
+                        dialog2.show();
                     }
                 });
                 Glide.with(getApplicationContext()).load(documentSnapshot.getString("ph_profile_image_url"))
@@ -426,8 +309,8 @@ public class Home extends AppCompatActivity{
                 ImageView imageView = null;
                 for(String item : arrayList) {
                     switch (i) {
-                       case 1: imageView = ph_image_1_uploadtv;
-                           break;
+                        case 1: imageView = ph_image_1_uploadtv;
+                            break;
                         case 2:imageView = ph_image_2_uploadtv;
                             break;
                         case 3:imageView = ph_image_3_uploadtv;
@@ -444,21 +327,22 @@ public class Home extends AppCompatActivity{
                 }
                 dialog1.show();
 
-               }
+            }
         });
     }
 
     private void uploadPoll(String booking_for, String booker_name, String booker_email, String booker_gender,
-                            String booker_phone) {
+                            String booker_phone,String booking_rate) {
         currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
         Map<String,Object> booking = new HashMap<>();
-       booking.put("booking_for",booking_for);
-       booking.put("booker_name",booker_name);
-       booking.put("booker_email",booker_email);
-       booking.put("booker_gender",booker_gender);
-       booking.put("booking_time",currentDateTimeString);
-       booking.put("booker_phone",booker_phone);
-       booking.put("booking_done",false);
+        booking.put("booking_for",booking_for);
+        booking.put("booker_name",booker_name);
+        booking.put("booker_email",booker_email);
+        booking.put("booker_gender",booker_gender);
+        booking.put("booking_time",currentDateTimeString);
+        booking.put("booker_phone",booker_phone);
+        booking.put("booking_done",false);
+        booking.put("booking_rate",booking_rate);
         db.collection("Booking").document(currentDateTimeString).set(booking);
     }
     @Override
@@ -485,18 +369,6 @@ public class Home extends AppCompatActivity{
         });
 
     }
-//    private void downloadimage(String phone){
-//        storage = FirebaseStorage.getInstance();
-//        storageReference = storage.getReferenceFromUrl("gs://voteapp-master-8201e.appspot.com/"+phone+"/");
-//        storageReference.child("profile_image").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-//            @Override
-//            public void onSuccess(Uri uri) {
-//                image = uri;
-//
-//            }
-//        });
-
-  //  }
     public void choosePhotoFromGallary() {
         Intent intent = new Intent();
         intent.setType("image/*");
@@ -542,12 +414,12 @@ public class Home extends AppCompatActivity{
                         public void accept(File file) {
                             switch (calling) {
                                 case 1: compressedImage1 = file;
-                                Glide.with(getApplicationContext())
-                                        .load(compressedImage1)
-                                        .apply(new RequestOptions().placeholder(R.drawable.progress_animation))
-                                        .apply(RequestOptions.centerCropTransform())
-                                        .into(ph_profile_image);
-                                break;
+                                    Glide.with(getApplicationContext())
+                                            .load(compressedImage1)
+                                            .apply(new RequestOptions().placeholder(R.drawable.progress_animation))
+                                            .apply(RequestOptions.centerCropTransform())
+                                            .into(ph_profile_image);
+                                    break;
                                 case 2: compressedImage2 = file;
                                     Glide.with(getApplicationContext())
                                             .load(compressedImage2)
@@ -592,116 +464,91 @@ public class Home extends AppCompatActivity{
         Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show();
     }
     private void uploadImage(final String name) {
-            switch (name) {
-                case "ph_profile_image_url":
-                    if (compressedImage1 != null) {
-                        compressedImage = compressedImage1;
-                    }
-                    break;
-                case "ph_image_1":
-                    if (compressedImage2 != null) {
-                        compressedImage = compressedImage2;
-                    }
-
-                    break;
-                case "ph_image_2":
-                    if (compressedImage3 != null) {
-                        compressedImage = compressedImage3;
-                    }
-
-                    break;
-                case "ph_image_3":
-                    if (compressedImage4 != null) {
-                        compressedImage = compressedImage4;
-                    }
-
-                    break;
-                case "ph_image_4":
-                    if (compressedImage5 != null) {
-                        compressedImage = compressedImage5;
-                    }
-
-                    break;
-            }
-            if (!name.isEmpty()) {
-                storageReference = storage.getReferenceFromUrl
-                        ("gs://oym-1e52d.appspot.com/"
-                                + currentDateTimeString + "/");
-                final StorageReference ref = storageReference.child(name);
-                if (compressedImage != null) {
-                    ref.putFile(Uri.fromFile(compressedImage)).continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
-                        @Override
-                        public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
-                            if (!task.isSuccessful()) {
-                                throw task.getException();
-                            }
-                            return ref.getDownloadUrl();
-                        }
-                    }).addOnCompleteListener(new OnCompleteListener<Uri>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Uri> task) {
-                            if (task.isSuccessful()) {
-                                downloadUri = task.getResult();
-                                photo = new HashMap<>();
-                                switch (name) {
-                                    case "ph_profile_image_url":
-                                        uriTask_profile = downloadUri;
-                                        photo.put("ph_profile_image_url", uriTask_profile.toString());
-                                        db.collection("Photographer").document(currentDateTimeString).update(photo);
-                                        break;
-                                    case "ph_image_1":
-                                        uriTask1 = downloadUri;
-                                        photo.put("ph_photo", FieldValue.arrayUnion(uriTask1.toString()));
-                                        db.collection("Photographer").document(currentDateTimeString).update(photo);
-                                        break;
-                                    case "ph_image_2":
-                                        uriTask2 = downloadUri;
-                                        photo.put("ph_photo", FieldValue.arrayUnion(uriTask2.toString()));
-                                        db.collection("Photographer").document(currentDateTimeString).update(photo);
-                                        break;
-                                    case "ph_image_3":
-                                        uriTask3 = downloadUri;
-                                        photo.put("ph_photo", FieldValue.arrayUnion(uriTask3.toString()));
-                                        db.collection("Photographer").document(currentDateTimeString).update(photo);
-                                        break;
-                                    case "ph_image_4":
-                                        uriTask4 = downloadUri;
-                                        photo.put("ph_photo", FieldValue.arrayUnion(uriTask4.toString()));
-                                        db.collection("Photographer").document(currentDateTimeString).update(photo);
-                                        break;
-                                }
-                            }
-                        }
-                    });
+        switch (name) {
+            case "ph_profile_image_url":
+                if (compressedImage1 != null) {
+                    compressedImage = compressedImage1;
                 }
+                break;
+            case "ph_image_1":
+                if (compressedImage2 != null) {
+                    compressedImage = compressedImage2;
+                }
+
+                break;
+            case "ph_image_2":
+                if (compressedImage3 != null) {
+                    compressedImage = compressedImage3;
+                }
+
+                break;
+            case "ph_image_3":
+                if (compressedImage4 != null) {
+                    compressedImage = compressedImage4;
+                }
+
+                break;
+            case "ph_image_4":
+                if (compressedImage5 != null) {
+                    compressedImage = compressedImage5;
+                }
+
+                break;
+        }
+        if (!name.isEmpty()) {
+            storageReference = storage.getReferenceFromUrl
+                    ("gs://oym-1e52d.appspot.com/"
+                            + currentDateTimeString + "/");
+            final StorageReference ref = storageReference.child(name);
+            if (compressedImage != null) {
+                ref.putFile(Uri.fromFile(compressedImage)).continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+                    @Override
+                    public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                        if (!task.isSuccessful()) {
+                            throw task.getException();
+                        }
+                        return ref.getDownloadUrl();
+                    }
+                }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Uri> task) {
+                        if (task.isSuccessful()) {
+                            downloadUri = task.getResult();
+                            photo = new HashMap<>();
+                            switch (name) {
+                                case "ph_profile_image_url":
+                                    uriTask_profile = downloadUri;
+                                    photo.put("ph_profile_image_url", uriTask_profile.toString());
+                                    db.collection("Photographer").document(currentDateTimeString).update(photo);
+                                    break;
+                                case "ph_image_1":
+                                    uriTask1 = downloadUri;
+                                    photo.put("ph_photo", FieldValue.arrayUnion(uriTask1.toString()));
+                                    db.collection("Photographer").document(currentDateTimeString).update(photo);
+                                    break;
+                                case "ph_image_2":
+                                    uriTask2 = downloadUri;
+                                    photo.put("ph_photo", FieldValue.arrayUnion(uriTask2.toString()));
+                                    db.collection("Photographer").document(currentDateTimeString).update(photo);
+                                    break;
+                                case "ph_image_3":
+                                    uriTask3 = downloadUri;
+                                    photo.put("ph_photo", FieldValue.arrayUnion(uriTask3.toString()));
+                                    db.collection("Photographer").document(currentDateTimeString).update(photo);
+                                    break;
+                                case "ph_image_4":
+                                    uriTask4 = downloadUri;
+                                    photo.put("ph_photo", FieldValue.arrayUnion(uriTask4.toString()));
+                                    db.collection("Photographer").document(currentDateTimeString).update(photo);
+                                    break;
+                            }
+                        }
+                    }
+                });
             }
+        }
     }
-//    private void uploadProfile(){
-//        storageReference = storage.getReferenceFromUrl("gs://oym-1e52d.appspot.com/" + currentUser.getPhoneNumber() + "/");
-//            final StorageReference ref = storageReference.child("profile_picture");
-//            ref.putFile(image).continueWith(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
-//                @Override
-//                public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
-//                    if (!task.isSuccessful()) {
-//                        throw task.getException();
-//                    }
-//                    return ref.getDownloadUrl();
-//                }
-//            }).addOnCompleteListener(new OnCompleteListener<Task<Uri>>() {
-//                @Override
-//                public void onComplete(@NonNull Task<Task<Uri>> task) {
-//                    if(task.isSuccessful()) {
-//                        Map<String,Object> user = new HashMap<>();
-//                        user.put("profile_image", task.getResult().toString());
-//                        db.collection("Vote").document("Users")
-//                                .collection(currentUser.getPhoneNumber()).document("ProfileInformation")
-//                                .update(user);
-//
-//                    }
-//                }
-//            });
-//
-//    }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -729,7 +576,7 @@ public class Home extends AppCompatActivity{
             @Override
             public void onSuccess(Uri uri) {
 
-                    us_profile_image_url = uri;
+                us_profile_image_url = uri;
             }
         });
 

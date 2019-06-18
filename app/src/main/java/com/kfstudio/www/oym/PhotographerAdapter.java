@@ -22,7 +22,7 @@ import com.mikhaellopez.circularimageview.CircularImageView;
 import me.ithebk.barchart.BarChartModel;
 
 public class PhotographerAdapter extends FirestoreRecyclerAdapter<Photographer, PhotographerAdapter.PhotographerHolder> {
-            private OnItemClickListener listener;
+    private OnItemClickListener listener;
 
 
     View v;
@@ -34,9 +34,9 @@ public class PhotographerAdapter extends FirestoreRecyclerAdapter<Photographer, 
     protected void onBindViewHolder(@NonNull final PhotographerHolder photographerHolder, int i, @NonNull final Photographer photographer) {
 
         photographerHolder.name.setText(photographer.getPh_name());
-       photographerHolder.experience.setText("Exp : "+photographer.getPh_experience());
-       photographerHolder.rating.setText("Rating : "+photographer.getPh_rating());
-       photographerHolder.location.setText(photographer.getPh_location());
+        photographerHolder.experience.setText("Exp : "+photographer.getPh_experience());
+        photographerHolder.rating.setText("Rating : "+photographer.getPh_rating());
+        photographerHolder.location.setText(photographer.getPh_location());
 
         Glide.with(v).load(photographer.getPh_profile_image_url())
                 .apply(new RequestOptions().placeholder(R.drawable.progress_animation))
